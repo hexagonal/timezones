@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timezones</title>
+</head>
+
+<body>
+    <style>
+        body,
+        select {
+            font-family: sans-serif;
+            font-size: 24px;
+        }
+    </style>
+    <label for="optTimeZones">IANA Timezones:</label><br>
+    <select id="optTimeZones">
+        <option value="Australia/Adelaide">Australia/Adelaide</option>
+        <option value="Australia/Brisbane">Australia/Brisbane</option>
+        <option value="Australia/Broken_Hill">Australia/Broken_Hill</option>
+        <option value="Australia/Currie">Australia/Currie</option>
+        <option value="Australia/Darwin">Australia/Darwin</option>
+        <option value="Australia/Eucla">Australia/Eucla</option>
+        <option value="Australia/Hobart">Australia/Hobart</option>
+        <option value="Australia/Lindeman">Australia/Lindeman</option>
+        <option value="Australia/Lord_Howe">Australia/Lord_Howe</option>
+        <option value="Australia/Melbourne">Australia/Melbourne</option>
+        <option value="Australia/Perth">Australia/Perth</option>
+        <option value="Australia/Sydney" selected>Australia/Sydney</option>
+        <option value="Pacific/Auckland">Pacific/Auckland (NZ)</option>
+        <option value="Pacific/Port_Moresby">Pacific/Port_Moresby (PNG)</option>
+        <option value="Asia/Kolkata">Asia/Kolkata (Delhi)</option>
+    </select>
+    <p id="output"></p>
+    <script>
+        let timeZone = "";
+        let dtf = null; // The date time format
+        let optTimeZones = document.getElementById("optTimeZones");
+        let pOutput = document.getElementById("output");
+        function updateDate() {
+            if (timeZone !== optTimeZones.value) {
+                timeZone = optTimeZones.value;
+                dtf = new Intl.DateTimeFormat("en-AU", {
+                    timeZone: timeZone,
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric"
+                });
+            }
+            let text = dtf.format(new Date());
+            if (text.substring(0, 1) === "0") text = text.slice(1);
+            pOutput.textContent = text.replace(",", "").replace("am", "AM").replace("pm", "PM");
+        }
+        optTimeZones.addEventListener("change", updateDate);
+        updateDate();
+    </script>
+</body>
+
+</html>
