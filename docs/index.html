@@ -12,6 +12,10 @@
     let optTimeZones = document.getElementById("optTimeZones");
     let outTimeZone = document.getElementById("outTimeZone");
     let outTime = document.getElementById("outTime");
+    let outUtcZone = document.getElementById("outUtcZone");
+    let outUtcOffset = document.getElementById("outUtcOffset");
+    let outUtcDsZone = document.getElementById("outUtcDsZone");
+    let outUtcDsOffset = document.getElementById("outUtcDsOffset");
     let outDateString = document.getElementById("outDateString");
     function updateDate() {
       if (timeZone !== optTimeZones.value) {
@@ -27,11 +31,85 @@
         });
       }
 
+      function getUtcZone(timeZone) {
+        switch (timeZone) {
+          case "Australia/Adelaide":
+          case "Australia/Darwin":
+            return "Australian Central Standard Time";
+          case "Australia/Brisbane":
+          case "Australia/Sydney":
+          case "Australia/Hobart":
+            return "Australian Eastern Standard Time";
+          case "Australia/Perth": return "Australian Western Standard Time";
+          case "Pacific/Auckland": return "New Zealand Standard Time";
+          case "Asia/Shanghai": return "China Standard Time";
+          case "Asia/Colombo":
+          case "Asia/Kolkata":
+            return "Indian Standard Time";
+          case "Asia/Dhaka": return "Bangladesh Standard Time";
+          case "Pacific/Port_Moresby": return "Papua New Guinea Time";
+          case "America/Los_Angeles": return "Pacific Standard Time";
+        }
+      }
+
+      function getUtcDsZone(timeZone) {
+        switch (timeZone) {
+          case "Australia/Adelaide":
+            return "Australian Central Daylight Saving Time";
+          case "Australia/Sydney":
+          case "Australia/Hobart":
+            return "Australian Eastern Daylight Saving Time";
+          case "Pacific/Auckland": return "New Zealand Daylight Time";
+          case "America/Los_Angeles": return "Pacific Daylight Time";
+          default: return null;
+        }
+      }
+
+      function getUtcOffset(timeZone) {
+        switch (timeZone) {
+          case "Australia/Adelaide":
+          case "Australia/Darwin":
+            return "UTC+09:30";
+          case "Australia/Brisbane":
+          case "Australia/Sydney":
+          case "Australia/Hobart":
+          case "Pacific/Port_Moresby":
+            return "UTC+10:00";
+          case "Australia/Perth":
+          case "Asia/Shanghai":
+            return "UTC+08:00";
+          case "Pacific/Auckland": return "UTC+12:00";
+          case "Asia/Colombo":
+          case "Asia/Kolkata":
+            return "UTC+05:30";
+          case "Asia/Dhaka": return "UTC+06:00";
+          case "America/Los_Angeles": return "UTC-08:00";
+        }
+      }
+
+      function getUtcDsOffset(timeZone) {
+        switch (timeZone) {
+          case "Australia/Adelaide":
+            return "UTC+10:30";
+          case "Australia/Sydney":
+          case "Australia/Hobart":
+            return "UTC+11:00";
+          case "Pacific/Auckland": return "UTC+13:00";
+          case "America/Los_Angeles": return "UTC-07:00";
+          default: return null;
+        }
+      }
+
       outTimeZone.textContent = timeZone;
 
       let text = dtf.format(new Date());
       if (text.substring(0, 1) === "0") text = text.slice(1);
       outTime.textContent = text.replace(",", "").replace("am", "AM").replace("pm", "PM");
+
+      outUtcZone.textContent = getUtcZone(timeZone);
+      outUtcOffset.textContent = getUtcOffset(timeZone);
+      outUtcDsZone.textContent = getUtcDsZone(timeZone);
+      outUtcDsOffset.textContent = getUtcDsOffset(timeZone);
 
       setTimeZone(timeZone);
       outDateString.textContent = today();
@@ -43,10 +121,9 @@
 
 <body>
   <style>
-    body,
-    select {
+    body {
       font-family: sans-serif;
-      font-size: 24px;
+      font-size: 16px;
     }
 
     * {
@@ -58,7 +135,7 @@
       margin-top: 1em;
     }
   </style>
-  <label for="optTimeZones">Microsoft timezone:</label><br>
+  <label for="optTimeZones" style="font-weight: bold;">Microsoft timezone:</label><br>
   <select id="optTimeZones">
     <option value="Australia/Adelaide">Adelaide</option>
     <option value="Australia/Brisbane">Brisbane</option>
@@ -66,16 +143,24 @@
     <option value="Australia/Darwin">Darwin</option>
     <option value="Australia/Hobart">Hobart</option>
     <option value="Australia/Perth">Perth</option>
-    <option value="America/Los_Angeles">Pacific Time (US & Canada)</option>
     <option value="Pacific/Auckland">Auckland, Wellington</option>
-    <option value="Pacific/Port_Moresby">Guam, Port Moresby</option>
+    <option value="Asia/Shanghai">Beijing, Chongqing, Hong Kong, Urumqi</option>
     <option value="Asia/Kolkata">Chennai, Kolkata, Mumbai, New Delhi</option>
+    <option value="Asia/Dhaka">Dhaka</option>
+    <option value="Pacific/Port_Moresby">Guam, Port Moresby</option>
+    <option value="America/Los_Angeles">Pacific Time (US & Canada)</option>
+    <option value="Asia/Colombo">Sri Jayawardenepura</option>
   </select>
-  <div style="margin-top: 2em;">JS timezone:</div>
+  <div style="margin-top: 2rem; font-weight: bold;">JS timezone:</div>
   <p id="outTimeZone"></p>
   <p id="outTime"></p>
-  <div style="margin-top: 1em;">today():</div>
+  <div style="margin-top: 1rem; font-family: monospace; font-weight: bold;">today():</div>
   <p id="outDateString"></p>
+  <div style="margin-top: 1rem; font-weight: bold;">UTC timezones:</div>
+  <div id="outUtcZone"></div>
+  <div id="outUtcOffset"></div>
+  <div id="outUtcDsZone"></div>
+  <div id="outUtcDsOffset"></div>
 </body>
 
 </html>
