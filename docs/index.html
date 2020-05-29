@@ -58,21 +58,20 @@
       margin-top: 1em;
     }
   </style>
-  <label for="optTimeZones">Timezone:</label><br>
+  <label for="optTimeZones">Microsoft timezone:</label><br>
   <select id="optTimeZones">
     <option value="Australia/Adelaide">Adelaide</option>
     <option value="Australia/Brisbane">Brisbane</option>
+    <option value="Australia/Sydney" selected>Canberra, Melbourne, Sydney</option>
     <option value="Australia/Darwin">Darwin</option>
     <option value="Australia/Hobart">Hobart</option>
-    <option value="Australia/Melbourne">Melbourne</option>
     <option value="Australia/Perth">Perth</option>
-    <option value="Australia/Sydney" selected>Sydney</option>
-    <option value="America/Los_Angeles">Los Angeles (USA)</option>
-    <option value="Pacific/Auckland">Auckland (NZ)</option>
-    <option value="Pacific/Port_Moresby">Port Moresby (PNG)</option>
-    <option value="Asia/Kolkata">Delhi (India)</option>
+    <option value="America/Los_Angeles">Pacific Time (US & Canada)</option>
+    <option value="Pacific/Auckland">Auckland, Wellington</option>
+    <option value="Pacific/Port_Moresby">Guam, Port Moresby</option>
+    <option value="Asia/Kolkata">Chennai, Kolkata, Mumbai, New Delhi</option>
   </select>
-  <div style="margin-top: 2em;">IANA Timezone:</div>
+  <div style="margin-top: 2em;">JS timezone:</div>
   <p id="outTimeZone"></p>
   <p id="outTime"></p>
   <div style="margin-top: 1em;">today():</div>
